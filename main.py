@@ -4,7 +4,7 @@ from fast_sigma_runtime import analyze_log
 from win10toast_click import ToastNotifier
 import webbrowser
 
-POST_URL = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amazonaws.com/abc/_doc"
+POST_URL = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amazonaws.com/sodiq/_doc"
 AUTH = ("sardor", "Aws0000$")
 HEADERS = {"Content-Type": "application/json"}
 
