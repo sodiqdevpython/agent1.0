@@ -1,8 +1,7 @@
-import time, json, sys, os, requests, ctypes
+import time, json, sys, os, requests
 from pywintrace import ETW, ProviderInfo, GUID
 from fast_sigma_runtime import analyze_log
-from win10toast_click import ToastNotifier
-import webbrowser
+from notifypy import Notify
 
 POST_URL = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amazonaws.com/sodiq/_doc"
 AUTH = ("sardor", "Aws0000$")
@@ -10,7 +9,6 @@ HEADERS = {"Content-Type": "application/json"}
 
 
 AGENT_PATH = os.path.realpath(sys.executable).lower()
-toaster = ToastNotifier()
 
 
 EXCLUDE_DIRS = [
@@ -25,6 +23,7 @@ EXCLUDE_DIRS = [path.lower() for path in EXCLUDE_DIRS]
 def post(doc: dict):
     try:
         response = requests.post(POST_URL, json=doc, auth=AUTH, headers=HEADERS)
+        print(response.status_code)
         if response.status_code not in [200, 201]:
             print("Qurilma internetga ulangan lekin wifi da internet yo'q yoki backendan muammo bor")
             print(response.text)
@@ -38,21 +37,16 @@ def post(doc: dict):
         except Exception as file_exc:
             print("❌ Log yozishda xato:", file_exc)
 
-
-def open_url():
-    webbrowser.open("https://google.com")
-    return 0
-
 def post_notification(title="Muammo aniqlandi", text=""):
     sys.stderr = open(os.devnull, 'w')
     text = text[:60] + "..." if len(text) > 60 else text
-    toaster.show_toast(
-        title,
-        text,
-        duration=2,
-        threaded=True,
-        callback_on_click=open_url
-    )
+    notification = Notify()
+    notification.title = title
+    notification.message = text
+    notification.application_name = "Agent"
+    notification._notification_audio = "./notification.wav"
+    notification.icon = './logo.png'
+    notification.send()
 
 def callback(full_event):
     event_id, event = full_event
