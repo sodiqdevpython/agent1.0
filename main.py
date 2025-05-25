@@ -28,10 +28,15 @@ def post(doc: dict):
         if response.status_code not in [200, 201]:
             print("Qurilma internetga ulangan lekin wifi da internet yo'q yoki backendan muammo bor")
             print(response.text)
+            raise Exception("HTTP error")
+    except Exception as exc:
+        print("📡 POST ishlamadi yoki internet yo‘q:", exc)
+        try:
             with open('data.jsonl', 'a', encoding='utf-8') as file:
                 file.write(json.dumps(doc, indent=4, ensure_ascii=False) + "\n")
-    except Exception as exc:
-        print("POST ishlamadi:", exc)
+            print("✅ Log saqlandi: data.jsonl")
+        except Exception as file_exc:
+            print("❌ Log yozishda xato:", file_exc)
 
 
 def open_url():
