@@ -7,6 +7,16 @@ POST_URL = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amaz
 AUTH = ("sardor", "Aws0000$")
 HEADERS = {"Content-Type": "application/json"}
 
+# notification uchun kerak
+if getattr(sys, 'frozen', False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(os.path.abspath(__file__))
+
+icon_path = os.path.join(base_path, "logo.png")
+sound_path = os.path.join(base_path, "notification.wav")
+
+#/# notification uchun kerak
 
 AGENT_PATH = os.path.realpath(sys.executable).lower()
 
@@ -29,13 +39,13 @@ def post(doc: dict):
             print(response.text)
             raise Exception("HTTP error")
     except Exception as exc:
-        print("📡 POST ishlamadi yoki internet yo‘q:", exc)
+        print("POST ishlamadi yoki internet yo‘q:", exc)
         try:
             with open('data.jsonl', 'a', encoding='utf-8') as file:
                 file.write(json.dumps(doc, indent=4, ensure_ascii=False) + "\n")
-            print("✅ Log saqlandi: data.jsonl")
+            print("Log saqlandi: data.jsonl")
         except Exception as file_exc:
-            print("❌ Log yozishda xato:", file_exc)
+            print("Log yozishda xato:", file_exc)
 
 def post_notification(title="Muammo aniqlandi", text=""):
     sys.stderr = open(os.devnull, 'w')
@@ -43,9 +53,11 @@ def post_notification(title="Muammo aniqlandi", text=""):
     notification = Notify()
     notification.title = title
     notification.message = text
+    if os.path.exists(icon_path):
+        notification.icon = icon_path
+    if os.path.exists(sound_path):
+        notification.audio = sound_path
     notification.application_name = "Agent"
-    notification._notification_audio = "./notification.wav"
-    notification.icon = './logo.png'
     notification.send()
 
 def callback(full_event):
