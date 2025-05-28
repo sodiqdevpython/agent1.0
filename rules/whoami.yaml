@@ -1,5 +1,15 @@
 title: Whoami Command Detected
-id: test-001
+id: 4a5c9d1b-d9ea-4b88-b9f7-4a3c731c48b1
+status: test
+description: Detects the execution of the "whoami" command which is often used by attackers and administrators to verify the current user context.
+references:
+  - https://attack.mitre.org/techniques/T1033/
+author: Sodiq Oydinov
+date: 2025-05-28
+modified: 2025-05-28
+tags:
+  - attack.discovery
+  - attack.t1033
 logsource:
   product: windows
   service: sysmon
@@ -8,4 +18,7 @@ detection:
   selection:
     CommandLine|contains: whoami
   condition: selection
+falsepositives:
+  - System administrators verifying user identity
+  - Scripts used for legitimate diagnostics or automation
 level: low

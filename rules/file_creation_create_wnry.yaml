@@ -1,0 +1,27 @@
+title: "wannaCry File Creation Detection"
+description: "Detects the creation of files with the .wnry extension, which strongly indicates activity related to WannaCry or similar ransomware families."
+id: a028ab66-9372-49a0-822c-282ea082b9c0
+author: "salimovone"
+status: "experimental"
+references: https://github.com/sigmahq/sigma
+date: 2025-05-28
+
+logsource:
+  product: windows
+  service: sysmon
+  category: file_creation
+
+detection:
+  selection:
+    Image|endswith: ".exe"
+    TargetFilename|endswith: ".wnry"
+  condition: selection
+
+level: high
+falsepositives:
+  - "It is very rare for files with the .wnry extension to be created by the system or by a user."
+
+tags:
+  - attack.t1486           # Data Encrypted for Impact (ransomware)
+  - attack.t1071.001       # Application Layer Protocol: Web Protocols
+  - attack.t1059           # Command and Scripting Interpreter

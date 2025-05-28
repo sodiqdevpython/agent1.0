@@ -3,6 +3,7 @@ description: "Detects process creation events where the 'Hidden' attribute is se
 id: ad698eee-696e-4509-806e-912bbf6c2e9a
 status: "experimental"
 author: "salimovone"
+date: 2025-05-25
 references:
     - "https://github.com/aktechnohacker/Ransomware-samples/tree/main/WannaCry"
 
@@ -13,10 +14,8 @@ logsource:
   definition: "This rule detects process creation events where the 'Hidden' attribute is set using the attrib.exe utility, which is commonly used to manipulate file attributes in Windows."
 detection:
   selection:
-    Image|endswith: "attrib.exe"
-    CommandLine|contains:
-      - "attrib.exe"
-      - "+h"
+    Image: "C:\\Windows\\SysWOW64\\attrib.exe"
+    CommandLine|contains: "+h"
   filter:
     ParentImage|endswith:
       - "C:\\Windows\\System32\\cmd.exe"

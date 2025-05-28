@@ -1,0 +1,23 @@
+title: File Creation with WannaCry Ransomware
+description: File Creation with WannaCry Ransomware
+id: 65a08700-8a9c-429f-b225-96633e955754
+status: experimental
+author: salimovone
+references: "https://github.com/sigmahq/sigma"
+date: 2025-05-27
+
+logsource:
+  product: windows
+  service: sysmon
+  category: file_creation
+
+detection:
+  selection:
+    TargetFilename|endswith: "@WanaDecryptor@.exe"
+  condition: selection
+
+level: high
+tags:
+  - attack.t1486          
+  - attack.t1071.001       
+  - attack.t1059         

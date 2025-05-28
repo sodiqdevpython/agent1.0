@@ -31,10 +31,10 @@ def identify_device() -> int | None:
 
 device_id = identify_device()
 
-ES_URL          = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amazonaws.com/abc/_doc"
-MISMATCH_URL    = "http://13.60.91.11:8000/api/v1/elastic/mismatches/"
-ES_AUTH         = ("sardor", "Aws0000$")
-ES_HEADERS      = {"Content-Type": "application/json"}
+ES_URL = "https://search-siemlog-rddlwektckldlou57enditbsqa.eu-north-1.es.amazonaws.com/abc/_doc"
+MISMATCH_URL = "http://13.60.91.11:8000/api/v1/elastic/mismatches/"
+ES_AUTH = ("sardor", "Aws0000$")
+ES_HEADERS = {"Content-Type": "application/json"}
 
 
 if getattr(sys, "frozen", False):
